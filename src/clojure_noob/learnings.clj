@@ -88,7 +88,6 @@
 ((nested-person :name) :first)
 
 ;; Keywords
-
 :a
 
 (def person {:name "Shrayas"
@@ -100,3 +99,54 @@
 
 (:name person)
 (:first (:name nested-person))
+
+;; Vectors
+[1 2 3]
+
+(def some-vector [1 "a" {:name "Shrayas"} 0.1])
+(get some-vector 1)
+
+;;; Conj adds to end of vector
+(conj some-vector 1 2 3)
+(conj some-vector {:age 12})
+
+;; List
+'(1 2 3)
+
+;;; Doesn't workS
+(get '(1 2 3) 0)
+
+;;; Conj adds to beginning of list
+(conj '(1 2 3) 0)
+
+;; Sets
+#{1 2 3}
+
+;;; If something already exists, can't add to it. 
+(conj #{1 2 3} 3)
+(conj #{1 2 3} 4)
+
+(nil? (get #{1 2 3} 4))
+
+(#{1 2 3} 3)
+
+;;; Use case: Take a vector and check if an element exists in it
+(def vector-to-check [1 2 3 4 5])
+
+(defn elem-in-vector?
+  [vector
+   element]
+  (not (nil? ((set vector) element))))
+
+(elem-in-vector? [1 2 3 4] 4)
+
+;; Symbols????
+(identity 1)
+
+;; Quoting
+(def some-vector [1 2 3])
+some-vector
+'some-vector
+(eval 'some-vector)
+
+(first (eval 'some-vector))
