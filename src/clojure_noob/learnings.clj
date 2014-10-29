@@ -316,6 +316,42 @@ some-vector
 (def dec3 (dec-maker 3))
 (dec3 10)
 
-;;;;;;;;;;;;;
-;; THE END ;;
-;;;;;;;;;;;;;
+;; let
+;;; bind names to values
+
+(let [x 3]
+  x)
+
+(def some-list ["a" "b" "c" "d"])
+(let [first2alphas (take 2 some-list)]
+  first2alphas)
+
+;;; New scope
+(def x 0)
+(let [x 1]
+  x)
+
+;;; reference existing bindings
+(let
+    [x 1
+     y x]
+  (+ x y))
+
+;;; can use rest-params in let
+(let [[pehala & baaki] ["amar" "akbar" "antony"]]
+  pehala)
+
+;;Loopzzz
+(loop [iteration 0]
+  (println (str "Iter " iteration))
+  (if (> iteration 3)
+    (println "Bye")
+    (recur (inc iteration))))
+
+;; Regex
+(re-find #"^asdf" "asdf")
+
+;; Reduce
+(reduce + [1 2 3 4])
+
+
