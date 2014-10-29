@@ -1,3 +1,7 @@
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Control Structures ;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; if
 (if true
   (println "True")
@@ -37,6 +41,10 @@
   (if (= severity :mild)
     (str error-msg "sooome prob")
     (str error-msg "OMFG!")))
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Data Structures ;;
+;;;;;;;;;;;;;;;;;;;;;
 
 ;; nil
 (def x nil)
@@ -150,3 +158,164 @@ some-vector
 (eval 'some-vector)
 
 (first (eval 'some-vector))
+
+;;;;;;;;;;;;;;;
+;; Functions ;;
+;;;;;;;;;;;;;;;
+
+(defn do-op
+  [coolness-level]
+  (if (= coolness-level "UBER")
+    +
+    -))
+
+((do-op "ASDF") 1 2)
+
+;; Fxn taking fxn as argument
+(inc 1)
+(dec 1)
+
+(map inc [1 2 3])
+
+;; Fxn evaluation
+(+ (dec 5) (/ (* 1 (- 10 5)) (- 10 5)))
+
+;; Evaluation order:
+;; (+ 4 (/ (* 1 (- 10 5)) (- 10 5))) ; Evaluate dec
+;; (+ 4 (/ (* 1 (- 10 5)) 5)) ; Evaluate (- 10 5)
+;; (+ 4 (/ (* 1 5) 5)) ; Evaluate (- 10 5)
+;; (+ 4 (/ 5 5)) ; Evaluate (* 1 5)
+;; (+ 4 1) ; Evaluate (/ 5 5)
+;; 5 ; Evaluate (+ 4 1)
+
+;; Defining functions
+(defn this-is-a-function
+  "I'm going to document this function like there is no tomorrow"
+  [arg1
+   arg2]
+  (+ arg1 arg2))
+
+(this-is-a-function 1 2)
+
+
+(defn multi-arity-fxn
+  ([one two three]
+     (println (str one two three)))
+  ([one two]
+     (println (str one two)))
+  ([one]
+     (println (str one))))
+
+(multi-arity-fxn 1)
+(multi-arity-fxn 1 2)
+(multi-arity-fxn 1 2 3)
+
+;;; Multi arity is the way to do default arguments in clj
+(defn make-chocolate
+  ([name
+    flavour]
+     {:name name :flavour flavour})
+  ([name]
+     (make-chocolate name "chocolate")))
+
+(make-chocolate "hersheys" "milk")
+(make-chocolate "snickers")
+
+;;; Specifying an arg with & before it makes clj put all the args within a list
+;;; and return it
+(defn var-arity
+  [& args]
+  (map inc args))
+
+(var-arity 1 2 3 4 5)
+
+(defn say-hi
+  [& people]
+  (defn _say-hi
+    [person]
+    (println (str "Hey " person ", how're u?")))
+  (map _say-hi people))
+
+(say-hi "shrayas")
+(say-hi "Shrayas" "Gugu" "Nishi")
+
+(defn fav-things
+  [name
+   & things]
+  (println (str "I'm " name " and I like these things: "
+                (clojure.string/join ", " things))))
+
+(fav-things "Shrayas" "Computers" "Photography")
+
+;; Destructuring
+;;; Neat concept where clj allows you to name an incoming set or vector elements
+;;; with particular names based on location
+(defn make-person
+  [[name age sex]]
+  {
+   :name name
+   :age  age
+   :sex  sex
+   })
+
+(make-person ["Shrayas" 25 :male])
+(make-person ["Shrayas" 25 :male :more-args])
+
+(defn make-person
+  [[
+    name
+    age
+    sex
+    & others]]
+  {
+   :name name
+   :age age
+   :sex sex
+   :others others
+   })
+
+(make-person ["Shrayas" 25 :male "Software Engineer" "Foodie"])
+
+(defn make-person
+  [{name :name sex :sex}]
+  (if (= (first name) \S)
+    "AWESOME!"
+    "BOO"))
+
+(make-person {:name "Shrayas"})
+
+(defn make-person
+  [{:keys [name sex]}]
+  (println (str name " " sex)))
+
+(make-person {:name "shrayas" :sex :male})
+
+
+(defn make-person
+  [{:keys [name sex] :as person}]
+  (println person)
+  (println (str name " " sex)))
+
+(make-person {:name "shrayas" :sex :male :more "things here"})
+
+;; Anon functions, yo! Lambdas, yo!
+(map (fn [a b]
+       (+ a b))
+     [1 2]
+     [3 4])
+
+;;; Can use this form to create lambdas. The % is used to indicate arguments.
+;;; % defaults to the first arg, to access more use %1 %2, etc
+(map #(* %1 %2) [1 2] [3 4])
+
+;; Returning functions
+(defn dec-maker
+  [dec-by]
+  #(- % dec-by))
+
+(def dec3 (dec-maker 3))
+(dec3 10)
+
+;;;;;;;;;;;;;
+;; THE END ;;
+;;;;;;;;;;;;;
