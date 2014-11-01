@@ -165,3 +165,27 @@
       (if (not (= curr n))
         (recur (inc curr) rem-elems)
         curr-elem))))
+
+;;; Other solutions. Drop is nice
+(#(first (drop %2 %1)) [1 2 3] 2)
+
+;; Count a sequence
+;; http://www.4clojure.com/problem/22
+
+(= (__ '(1 2 3 3 1)) 5)
+
+(reduce (fn [initial final]
+  (println (str initial final))) [1 2 3])
+
+(reduce (fn [x y]
+          (println (str x y))) [1 2 3])
+
+(reduce + 1 [1 2 3])
+(reduce #(+ %1 %2) 1 [1 2 3])
+
+((fn [x]
+  (loop [list-to-iterate x
+         curr-count 0]
+    (if (empty? list-to-iterate)
+      curr-count
+      (recur (rest list-to-iterate) (inc curr-count))))) '(1 2 3))
