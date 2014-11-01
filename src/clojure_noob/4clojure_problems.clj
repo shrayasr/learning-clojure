@@ -165,3 +165,56 @@
       (if (not (= curr n))
         (recur (inc curr) rem-elems)
         curr-elem))))
+
+;; Reverse a sequence
+;; http://www.4clojure.com/problem/23
+
+(reduce #(conj (lazy-seq %1) %2) '() [1 2 3])
+
+;; Sum it all up
+;; http://www.4clojure.com/problem/24#prob-title
+
+(reduce + 0 [1 2 3])
+
+;; Find odd nos
+;; http://www.4clojure.com/problem/25#prob-title
+
+(= (__ [4 2 1 6]) '(1))
+
+(filter #(= (mod %1 2) 0) [1 2 3 4 5])
+
+;; Fib sequence
+;; http://www.4clojure.com/problem/26#prob-title
+
+(= (__ 3) '(1 1 2))
+
+(= ((fn [limit]
+  (loop [first 1
+         second 1
+         count 2
+         current-list (conj [] first second)]
+    (if (= count limit)
+      current-list
+      (let [third (+ first second)
+            current-list (conj current-list third)]
+        (recur second third (inc count) current-list))))) 3) '(1 1 2))
+
+((fn [x]
+  (if (= x 3)
+    x
+    (do
+      (println x)
+      (recur (inc x))))) 0)
+
+;; Palindrome Detector
+;; http://www.4clojure.com/problem/27#prob-title
+
+(#(= % (reverse %)) "level")
+
+(str (reverse "level"))
+
+(clojure.string/join "" [\a \b \c])
+
+(clojure.string/join "" (reverse "level"))
+
+(#(= % (clojure.string/join "" (reverse %))) "level")
