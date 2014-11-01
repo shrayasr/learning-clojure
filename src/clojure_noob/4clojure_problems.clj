@@ -243,7 +243,6 @@
 
 (#(= % (clojure.string/join "" (reverse %))) "level")
 
-
 (defn is-palindrome? [input]
   (loop [seq-to-check input
          is-palindrome 't]
@@ -285,3 +284,26 @@
         (if (= first-elem last-elem)
           (recur remaining-elems 'true)
           'f))))) '(1 2 3 4 5))
+
+;; Flatten a sequence
+;; http://www.4clojure.com/problem/28
+
+(fn [input]
+  (loop [list-to-flatten input
+         flattened-list []]
+    (let [[elem & remaining] list-to-flatten]
+      (if (empty? remaining)
+        flattened-list
+        (if (instance? clojure.lang.Sequential remaining))))))
+
+(= ((fn [input]
+  (loop [list-to-flatten input
+         flattened-list []]
+    (if (empty? list-to-flatten)
+      flattened-list
+      (let [[item & rem] list-to-flatten
+            is-seq? (#(instance? clojure.lang.Sequential %) item)]
+        (if is-seq?
+          (recur (concat item rem) flattened-list)
+          (recur rem (conj flattened-list item))))))) '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6))
+
