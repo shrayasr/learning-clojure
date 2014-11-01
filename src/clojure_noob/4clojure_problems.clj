@@ -218,3 +218,46 @@
 (clojure.string/join "" (reverse "level"))
 
 (#(= % (clojure.string/join "" (reverse %))) "level")
+
+
+(defn is-palindrome? [input]
+  (loop [seq-to-check input
+         is-palindrome 't]
+    (if (empty? seq-to-check)
+      is-palindrome
+      (let [first-elem (first seq-to-check)
+            last-elem (last seq-to-check)
+            remaining-elems (drop-last (drop 1 seq-to-check))]
+        (if (= first-elem last-elem)
+          (recur remaining-elems 't)
+          'f)))))
+
+(is-palindrome? [1 2 3])
+(is-palindrome? [1 2 1])
+(is-palindrome? [:foo :bar :foo])
+
+
+(false? ((fn [input]
+  (loop [seq-to-check input
+         is-palindrome 't]
+    (if (empty? seq-to-check)
+      is-palindrome
+      (let [first-elem (first seq-to-check)
+            last-elem (last seq-to-check)
+            remaining-elems (drop-last (drop 1 seq-to-check))]
+        (if (= first-elem last-elem)
+          (recur remaining-elems 't)
+          'f))))) '(1 2 3 4 5)))
+
+
+((fn [input]
+  (loop [seq-to-check input
+         is-palindrome 't]
+    (if (empty? seq-to-check)
+      is-palindrome
+      (let [first-elem (first seq-to-check)
+            last-elem (last seq-to-check)
+            remaining-elems (drop-last (drop 1 seq-to-check))]
+        (if (= first-elem last-elem)
+          (recur remaining-elems 'true)
+          'f))))) '(1 2 3 4 5))
