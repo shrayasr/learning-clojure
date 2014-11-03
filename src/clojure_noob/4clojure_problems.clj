@@ -331,3 +331,16 @@
 
 ;; Compress sequence
 ;; http://www.4clojure.com/problem/30
+
+(defn some-fxn
+  [input]
+  (loop [seq-to-iterate input
+         already-visited #{}
+         compressed-seq []]
+    (if (empty? seq-to-iterate)
+      compressed-seq
+      (let [[curr-char & rest-chars] seq-to-iterate
+            is-already-in-map? (already-visited curr-char)]
+        (if is-already-in-map?
+            (recur rest-chars already-visited compressed-seq)
+            (recur rest-chars (conj already-visited curr-char) (conj compressed-seq curr-char)))))))
