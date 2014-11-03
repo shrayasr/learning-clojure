@@ -307,3 +307,17 @@
           (recur (concat item rem) flattened-list)
           (recur rem (conj flattened-list item))))))) '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6))
 
+(defn is-uppercase? [char-to-inspect]
+  (if (and (>= (int char-to-inspect) 65) (<= (int char-to-inspect) 90))
+    char-to-inspect))
+
+(is-uppercase? \A)
+
+(map is-uppercase? "AsdF")
+
+(reduce str "" (map is-uppercase? "AsdF"))
+
+(= (__ "HeLlO, WoRlD!") "HLOWRD")
+
+((fn [input]
+  (reduce str "" (map is-uppercase? input))) "HeLlO, WoRlD!")
