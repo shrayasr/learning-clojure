@@ -307,6 +307,9 @@
           (recur (concat item rem) flattened-list)
           (recur rem (conj flattened-list item))))))) '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6))
 
+;; Get the caps
+;; http://www.4clojure.com/problem/29
+
 (defn is-uppercase? [char-to-inspect]
   (if (and (>= (int char-to-inspect) 65) (<= (int char-to-inspect) 90))
     char-to-inspect))
@@ -321,3 +324,10 @@
 
 ((fn [input]
   (reduce str "" (map is-uppercase? input))) "HeLlO, WoRlD!")
+
+(apply str (map is-uppercase? "heLLO WORld"))
+
+(apply str (map #(when(Character/isUpperCase %) %) "HeLLO"))
+
+;; Compress sequence
+;; http://www.4clojure.com/problem/30
