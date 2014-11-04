@@ -344,3 +344,19 @@
         (if is-already-in-map?
             (recur rest-chars already-visited compressed-seq)
             (recur rest-chars (conj already-visited curr-char) (conj compressed-seq curr-char)))))))
+
+(defn compress-conseq-items
+  [input]
+  (loop [seq-to-iterate input
+         last-item nil
+         compressed-seq []]
+    (if (empty? seq-to-iterate)
+      compressed-seq
+      (let [[curr-item & remaining-items] seq-to-iterate
+            is-last-item? (= last-item curr-item)]
+        (if is-last-item?
+          (recur remaining-items curr-item compressed-seq)
+          (recur remaining-items curr-item (conj compressed-seq curr-item)))))))
+
+(compress-conseq-items "Leeeeroy")
+(compress-conseq-items [1 1 2 3 3 2 2 3])
