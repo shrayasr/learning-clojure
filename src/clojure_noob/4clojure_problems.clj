@@ -331,3 +331,43 @@
 
 ;; Compress sequence
 ;; http://www.4clojure.com/problem/30
+
+(fn [input]
+    (loop [seq-to-iterate input
+         last-item nil
+         compressed-seq []]
+    (if (empty? seq-to-iterate)
+      compressed-seq
+      (let [[curr-item & remaining-items] seq-to-iterate
+            is-last-item? (= last-item curr-item)]
+        (if is-last-item?
+          (recur remaining-items curr-item compressed-seq)
+          (recur remaining-items curr-item (conj compressed-seq curr-item)))))))
+
+;; Pack a Sequence
+;; http://www.4clojure.com/problem/31
+
+(partition-by list [1 1 2 1 1 1 3 3])
+
+;; duplicate a sequence
+;; http://www.4clojure.com/problem/32#prob-title
+
+(apply concat (map (fn [input]
+       [input input]) [1 2 3]))
+
+(= ((fn [input]
+      (apply concat (map #(do [% %]) input))) [1 2 3]) '(1 1 2 2 3 3))
+
+;; Replicate a sequence
+;; http://www.4clojure.com/problem/33#prob-title
+
+(fn [input
+     times]
+  (apply interleave (take times (repeat input))))
+
+;; for 4clojure
+(fn [input
+     times]
+  (if (= times 1)
+    input
+    (apply interleave (take times (repeat input)))))
